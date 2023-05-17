@@ -8,11 +8,31 @@ for (i = 0; i < updateBtns.length; i++) {
 		console.log('USER:', user)
 
 		if (user == 'AnonymousUser'){
-            console.log('not logged in')
 			// addCookieItem(productId, action)
 		}else{
-			// updateUserOrder(productId, action)
-            console.log('logged in')
+			updateUserOrder(productId, action)
 		}
 	})
+}
+
+function updateUserOrder(productId, action){
+	console.log('User is authenticated, sending data...')
+
+		var url = '/update_item/'
+
+		fetch(url, {
+			method:'POST',
+			headers:{
+				'Content-Type':'application/json',
+				'X-CSRFToken':csrftoken,
+			}, 
+			body:JSON.stringify({'productId':productId, 'action':action})
+		})
+		.then((response) => {
+		   return response.json();
+		})
+		.then((data) => {
+            console.log(data)
+		    // location.reload()
+		});
 }
